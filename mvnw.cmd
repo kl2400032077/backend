@@ -32,7 +32,7 @@ if not exist "%WRAPPER_JAR%" (
   )
 )
 
-@REM Run the wrapper jar which will download Maven distribution if needed
-java -jar "%WRAPPER_JAR%" -Dmaven.multiModuleProjectDirectory="%MAVEN_PROJECTBASEDIR%" %*
+@REM Run the wrapper main class (downloads Maven distribution if needed)
+java -classpath "%WRAPPER_JAR%" -Dmaven.multiModuleProjectDirectory="%MAVEN_PROJECTBASEDIR%" org.apache.maven.wrapper.MavenWrapperMain %*
 exit /b %ERRORLEVEL%
 
