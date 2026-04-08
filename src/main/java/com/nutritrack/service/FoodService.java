@@ -26,23 +26,32 @@ public class FoodService {
   }
 
   public FoodResponse create(FoodCreateRequest req) {
-    if (foodRepository.existsById(req.getId())) {
+    if (foodRepository.existsById(req.id())) {
       throw new ApiException(HttpStatus.CONFLICT, "id exists");
     }
-    Food food = modelMapper.map(req, Food.class);
+    Food food = new Food(
+        req.id(),
+        req.name(),
+        req.calories(),
+        req.proteinG(),
+        req.ironMg(),
+        req.vitaminCMg(),
+        req.calciumMg(),
+        req.vitaminDIu()
+    );
     foodRepository.save(food);
     return modelMapper.map(food, FoodResponse.class);
   }
 
   public FoodResponse update(String id, FoodUpdateRequest req) {
     Food food = foodRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "not found"));
-    if (req.getName() != null) food.setName(req.getName());
-    if (req.getCalories() != null) food.setCalories(req.getCalories());
-    if (req.getProteinG() != null) food.setProteinG(req.getProteinG());
-    if (req.getIronMg() != null) food.setIronMg(req.getIronMg());
-    if (req.getVitaminCMg() != null) food.setVitaminCMg(req.getVitaminCMg());
-    if (req.getCalciumMg() != null) food.setCalciumMg(req.getCalciumMg());
-    if (req.getVitaminDIu() != null) food.setVitaminDIu(req.getVitaminDIu());
+    if (req.name() != null) food.setName(req.name());
+    if (req.calories() != null) food.setCalories(req.calories());
+    if (req.proteinG() != null) food.setProteinG(req.proteinG());
+    if (req.ironMg() != null) food.setIronMg(req.ironMg());
+    if (req.vitaminCMg() != null) food.setVitaminCMg(req.vitaminCMg());
+    if (req.calciumMg() != null) food.setCalciumMg(req.calciumMg());
+    if (req.vitaminDIu() != null) food.setVitaminDIu(req.vitaminDIu());
     foodRepository.save(food);
     return modelMapper.map(food, FoodResponse.class);
   }

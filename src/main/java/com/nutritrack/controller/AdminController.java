@@ -23,12 +23,7 @@ public class AdminController {
   }
 
   private AuthResponse toUserResponse(User u) {
-    return AuthResponse.builder()
-        .id(u.getId())
-        .email(u.getEmail())
-        .role(u.getRole().name().toLowerCase())
-        .accessToken(null)
-        .build();
+    return new AuthResponse(u.getId(), u.getEmail(), u.getRole().name().toLowerCase(), null);
   }
 }
 

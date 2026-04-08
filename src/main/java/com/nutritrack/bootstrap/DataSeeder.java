@@ -36,28 +36,28 @@ public class DataSeeder implements CommandLineRunner {
   private void seedUsers() {
     if (userRepository.count() > 0) return;
     userRepository.saveAll(List.of(
-        User.builder().id("u1").email("user@example.com").passwordHash(passwordEncoder.encode("user123")).role(UserRole.USER).build(),
-        User.builder().id("a1").email("admin@example.com").passwordHash(passwordEncoder.encode("admin123")).role(UserRole.ADMIN).build()
+        new User("u1", "user@example.com", passwordEncoder.encode("user123"), UserRole.USER),
+        new User("a1", "admin@example.com", passwordEncoder.encode("admin123"), UserRole.ADMIN)
     ));
   }
 
   private void seedFoods() {
     if (foodRepository.count() > 0) return;
     foodRepository.saveAll(List.of(
-        Food.builder().id("apple").name("Apple").calories(52).proteinG(0.3).ironMg(0.1).vitaminCMg(4.6).calciumMg(6).vitaminDIu(0).build(),
-        Food.builder().id("banana").name("Banana").calories(96).proteinG(1.3).ironMg(0.3).vitaminCMg(8.7).calciumMg(5).vitaminDIu(0).build(),
-        Food.builder().id("milk").name("Milk (cow)").calories(61).proteinG(3.2).ironMg(0).vitaminCMg(0).calciumMg(113).vitaminDIu(52).build(),
-        Food.builder().id("egg").name("Egg").calories(155).proteinG(13).ironMg(1.2).vitaminCMg(0).calciumMg(50).vitaminDIu(82).build(),
-        Food.builder().id("spinach").name("Spinach").calories(23).proteinG(2.9).ironMg(2.7).vitaminCMg(28.1).calciumMg(99).vitaminDIu(0).build()
+        new Food("apple", "Apple", 52, 0.3, 0.1, 4.6, 6, 0),
+        new Food("banana", "Banana", 96, 1.3, 0.3, 8.7, 5, 0),
+        new Food("milk", "Milk (cow)", 61, 3.2, 0, 0, 113, 52),
+        new Food("egg", "Egg", 155, 13, 1.2, 0, 50, 82),
+        new Food("spinach", "Spinach", 23, 2.9, 2.7, 28.1, 99, 0)
     ));
   }
 
   private void seedRdas() {
     if (rdaRepository.count() > 0) return;
     rdaRepository.saveAll(List.of(
-        Rda.builder().id("4-8").label("Age 4-8").calories(1400).proteinG(19).ironMg(10).vitaminCMg(25).calciumMg(1000).vitaminDIu(600).build(),
-        Rda.builder().id("9-13").label("Age 9-13").calories(1800).proteinG(34).ironMg(8).vitaminCMg(45).calciumMg(1300).vitaminDIu(600).build(),
-        Rda.builder().id("14-18").label("Age 14-18").calories(2200).proteinG(46).ironMg(11).vitaminCMg(65).calciumMg(1300).vitaminDIu(600).build()
+        new Rda("4-8", "Age 4-8", 1400, 19, 10, 25, 1000, 600),
+        new Rda("9-13", "Age 9-13", 1800, 34, 8, 45, 1300, 600),
+        new Rda("14-18", "Age 14-18", 2200, 46, 11, 65, 1300, 600)
     ));
   }
 }

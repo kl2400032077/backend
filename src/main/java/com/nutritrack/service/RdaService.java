@@ -26,12 +26,12 @@ public class RdaService {
 
   public RdaResponse update(String id, RdaUpdateRequest req) {
     Rda rda = rdaRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "not found"));
-    if (req.getCalories() != null) rda.setCalories(req.getCalories());
-    if (req.getProteinG() != null) rda.setProteinG(req.getProteinG());
-    if (req.getIronMg() != null) rda.setIronMg(req.getIronMg());
-    if (req.getVitaminCMg() != null) rda.setVitaminCMg(req.getVitaminCMg());
-    if (req.getCalciumMg() != null) rda.setCalciumMg(req.getCalciumMg());
-    if (req.getVitaminDIu() != null) rda.setVitaminDIu(req.getVitaminDIu());
+    if (req.calories() != null) rda.setCalories(req.calories());
+    if (req.proteinG() != null) rda.setProteinG(req.proteinG());
+    if (req.ironMg() != null) rda.setIronMg(req.ironMg());
+    if (req.vitaminCMg() != null) rda.setVitaminCMg(req.vitaminCMg());
+    if (req.calciumMg() != null) rda.setCalciumMg(req.calciumMg());
+    if (req.vitaminDIu() != null) rda.setVitaminDIu(req.vitaminDIu());
     rdaRepository.save(rda);
     return modelMapper.map(rda, RdaResponse.class);
   }

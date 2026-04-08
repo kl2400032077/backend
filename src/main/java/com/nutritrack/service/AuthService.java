@@ -26,43 +26,33 @@ public class AuthService {
   }
 
   public AuthResponse signup(SignupRequest req) {
-    if (userRepository.existsByEmailIgnoreCase(req.getEmail())) {
+    if (userRepository.existsByEmailIgnoreCase(req.email())) {
       throw new ApiException(HttpStatus.CONFLICT, "Email already exists");
     }
 
-    UserRole role = "admin".equalsIgnoreCase(req.getRole()) ? UserRole.ADMIN : UserRole.USER;
-    User user = User.builder()
-        .id("user_" + UUID.randomUUID())
-        .email(req.getEmail().trim().toLowerCase())
-        .passwordHash(passwordEncoder.encode(req.getPassword()))
-        .role(role)
-        .build();
+    UserRole role = "admin".equalsIgnoreCase(req.role()) ? UserRole.ADMIN : UserRole.USER;
+    User user = new User(
+        "user_" + UUID.randomUUID(),
+        req.email().trim().toLowerCase(),
+        passwordEncoder.encode(req.password()),
+        role
+    );
     userRepository.save(user);
 
     String token = jwtService.generateAccessToken(user.getId(), user.getEmail(), user.getRole().name());
-    return AuthResponse.builder()
-        .id(user.getId())
-        .email(user.getEmail())
-        .role(user.getRole().name().toLowerCase())
-        .accessToken(token)
-        .build();
+    return new AuthResponse(user.getId(), user.getEmail(), user.getRole().name().toLowerCase(), token);
   }
 
   public AuthResponse login(LoginRequest req) {
-    User user = userRepository.findByEmailIgnoreCase(req.getEmail())
+    User user = userRepository.findByEmailIgnoreCase(req.email())
         .orElseThrow(() -> new ApiException(HttpStatus.UNAUTHORIZED, "Invalid email or password"));
 
-    if (!passwordEncoder.matches(req.getPassword(), user.getPasswordHash())) {
+    if (!passwordEncoder.matches(req.password(), user.getPasswordHash())) {
       throw new ApiException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
     }
 
     String token = jwtService.generateAccessToken(user.getId(), user.getEmail(), user.getRole().name());
-    return AuthResponse.builder()
-        .id(user.getId())
-        .email(user.getEmail())
-        .role(user.getRole().name().toLowerCase())
-        .accessToken(token)
-        .build();
+    return new AuthResponse(user.getId(), user.getEmail(), user.getRole().name().toLowerCase(), token);
   }
 }
 

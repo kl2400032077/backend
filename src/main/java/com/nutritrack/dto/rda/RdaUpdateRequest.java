@@ -1,14 +1,11 @@
 package com.nutritrack.dto.rda;
 
-import lombok.Data;
-
-@Data
-public class RdaUpdateRequest {
-  private Double calories;
-  private Double proteinG;
-  private Double ironMg;
-  private Double vitaminCMg;
-  private Double calciumMg;
-  private Double vitaminDIu;
-}
+public record RdaUpdateRequest(
+    Double calories,
+    Double proteinG,
+    Double ironMg,
+    Double vitaminCMg,
+    Double calciumMg,
+    Double vitaminDIu
+) {}
 
