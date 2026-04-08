@@ -24,3 +24,12 @@ app:
     secret: "CHANGE_ME_TO_A_LONG_RANDOM_SECRET_AT_LEAST_32_CHARS"
     accessTokenMinutes: 60
 
+# springdoc-openapi (Swagger UI + /v3/api-docs)
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui
+    enabled: true
+  show-actuator: false
+
