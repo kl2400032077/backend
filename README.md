@@ -28,6 +28,24 @@ Run `com.nutritrack.NutriTrackApplication` as **Java Application** or **Spring B
 
 Backend listens on `http://localhost:8080`.
 
+## Database (MySQL Workbench)
+- This backend now uses **MySQL** (not H2).
+- Default connection in `application.yml`:
+  - URL: `jdbc:mysql://localhost:3306/nutritrack?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC`
+  - Username: `root`
+  - Password: `root`
+
+### Setup in MySQL Workbench
+1. Open MySQL Workbench and ensure your MySQL server is running.
+2. If your root password is not `root`, update `spring.datasource.password` in `application.yml`.
+3. You can create DB manually with:
+   ```sql
+   CREATE DATABASE IF NOT EXISTS nutritrack;
+   ```
+   (The app URL already includes `createDatabaseIfNotExist=true`, so this is optional.)
+4. Start backend: `.\mvnw.cmd spring-boot:run`
+5. Refresh schemas in Workbench and open `nutritrack` to view tables/data.
+
 ## Swagger
 - **Swagger UI:** `http://localhost:8080/swagger-ui/index.html`
 - **OpenAPI JSON:** `http://localhost:8080/v3/api-docs`

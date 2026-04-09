@@ -18,17 +18,27 @@ public class AuthService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
+  private final OtpService otpService;
 
-  public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+  public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, OtpService otpService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.jwtService = jwtService;
+    this.otpService = otpService;
+  }
+
+  public void requestSignupOtp(String email) {
+    if (userRepository.existsByEmailIgnoreCase(email)) {
+      throw new ApiException(HttpStatus.CONFLICT, "Email already exists");
+    }
+    otpService.issueSignupOtp(email);
   }
 
   public AuthResponse signup(SignupRequest req) {
     if (userRepository.existsByEmailIgnoreCase(req.email())) {
       throw new ApiException(HttpStatus.CONFLICT, "Email already exists");
     }
+    otpService.verifySignupOtp(req.email(), req.otp().trim());
 
     UserRole role = "admin".equalsIgnoreCase(req.role()) ? UserRole.ADMIN : UserRole.USER;
     User user = new User(
