@@ -19,7 +19,7 @@ public class OtpService {
   private final SecureRandom random = new SecureRandom();
   private final Map<String, OtpEntry> otpByEmail = new ConcurrentHashMap<>();
 
-  @Value("${app.mail.from:no-reply@nutritrack.local}")
+  @Value("${app.mail.from:}")
   private String fromEmail;
 
   public OtpService(JavaMailSender mailSender) {
@@ -52,7 +52,9 @@ public class OtpService {
   private void sendEmail(String toEmail, String otp) {
     try {
       SimpleMailMessage msg = new SimpleMailMessage();
-      msg.setFrom(fromEmail);
+      if (fromEmail != null && !fromEmail.isBlank()) {
+        msg.setFrom(fromEmail.trim());
+      }
       msg.setTo(toEmail);
       msg.setSubject("NutriTrack Signup OTP");
       msg.setText("Your NutriTrack OTP is: " + otp + "\nIt is valid for 10 minutes.");
