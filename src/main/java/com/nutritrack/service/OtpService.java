@@ -11,9 +11,12 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class OtpService {
+  private static final Logger log = LoggerFactory.getLogger(OtpService.class);
   private static final long OTP_TTL_SECONDS = 10 * 60;
   private final JavaMailSender mailSender;
   private final SecureRandom random = new SecureRandom();
@@ -60,6 +63,12 @@ public class OtpService {
       msg.setText("Your NutriTrack OTP is: " + otp + "\nIt is valid for 10 minutes.");
       mailSender.send(msg);
     } catch (MailException ex) {
+      log.error("OTP email send failed. toEmail={} fromEmail={} exType={} exMessage={}",
+          toEmail,
+          (fromEmail == null ? "" : fromEmail),
+          ex.getClass().getName(),
+          ex.getMessage(),
+          ex);
       throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to send OTP email. Check SMTP configuration.");
     }
   }
