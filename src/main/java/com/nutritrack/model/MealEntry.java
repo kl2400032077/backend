@@ -21,7 +21,7 @@ public class MealEntry {
 
   private boolean customFood;
 
-  @Column(columnDefinition = "CLOB")
+  @Column(columnDefinition = "LONGTEXT")
   private String nutrientsJson;
 
   private long at;

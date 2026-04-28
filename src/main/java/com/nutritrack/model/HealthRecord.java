@@ -16,10 +16,10 @@ public class HealthRecord {
 
   private int age;
 
-  @Column(columnDefinition = "CLOB")
+  @Column(columnDefinition = "LONGTEXT")
   private String totalsJson;
 
-  @Column(columnDefinition = "CLOB")
+  @Column(columnDefinition = "LONGTEXT")
   private String deficitsJson;
 
   private long timestamp;
